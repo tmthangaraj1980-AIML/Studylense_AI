@@ -1,0 +1,39 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <meta name="description" content="StudyLens AI — turn your textbook and past exam papers into a referenced answer bank." />
+  <title>StudyLens AI · Exam-ready answers</title>
+  <link rel="stylesheet" href="styles.css" />
+  <script defer src="app.js"></script>
+</head>
+<body>
+  <div class="shell">
+    <aside class="sidebar">
+      <a class="brand" href="#home" aria-label="StudyLens AI home"><span class="brand-icon">✦</span><span>StudyLens<span class="brand-accent"> AI</span><small>STUDY SMARTER</small></span></a>
+      <div class="sidebar-group"><div class="eyebrow">WORKSPACE</div><a class="nav active" href="#workspace"><span>▦</span> Exam workspace</a><a class="nav" href="#questions"><span>≡</span> Question paper</a><a class="nav" href="#answers"><span>✎</span> Answer bank</a><a class="nav" href="#ask"><span>◈</span> Ask textbook</a></div>
+      <div class="sidebar-bottom"><div class="privacy-note"><span>◉</span><div><strong>Private by design</strong><p>Session files are processed temporarily. Avoid uploading sensitive material.</p></div></div><button id="resetBtn" class="sidebar-reset" type="button">↻ &nbsp; Start a new session</button></div>
+    </aside>
+    <main id="home" class="main">
+      <header class="topbar"><span class="crumb">Workspace <span class="muted">/</span> New exam session</span><div class="connection"><span id="healthDot" class="dot"></span><span id="healthText">Checking backend…</span></div></header>
+      <div class="content">
+        <section class="hero"><div class="hero-text"><div class="hero-kicker"><span class="spark">✦</span> YOUR AI STUDY COMPANION</div><h1>Turn study material into <span>exam-ready answers.</span></h1><p>Upload your textbook and question paper. StudyLens finds every question—including OR choices—and prepares answers grounded in your textbook.</p></div><div class="hero-art" aria-hidden="true"><div class="sheet sheet-back"></div><div class="sheet sheet-front"><div class="sheet-mark">✦</div><div class="line wide"></div><div class="line"></div><div class="line medium"></div><div class="check">✓</div></div><div class="orbit">✧</div></div></section>
+        <div id="alert" class="alert" role="alert" hidden></div>
+        <section id="workspace" class="section"><div class="section-heading"><div><span class="eyebrow">GET STARTED</span><h2>Build your answer bank</h2><p>Follow these three steps to prepare a complete exam answer set.</p></div><span class="session-pill" id="sessionPill">No active session</span></div>
+          <div class="steps">
+            <article class="step-card" id="textbookCard"><div class="card-head"><span class="step-num">01</span><span id="textbookStatus" class="status-tag">Not uploaded</span></div><div class="card-icon purple">▤</div><h3>Upload textbook</h3><p>Your source of truth. We'll extract and index its content for accurate answers.</p><label class="dropzone" for="textbookFile"><span class="upload-symbol">⇧</span><strong id="textbookFilename">Choose textbook PDF</strong><small>PDF format · Max 20 MB</small></label><input id="textbookFile" type="file" accept=".pdf,application/pdf" hidden /><button id="textbookBtn" class="btn btn-primary" type="button">Upload & index textbook <span>→</span></button><div class="card-detail" id="textbookDetail" aria-live="polite"></div></article>
+            <article class="step-card" id="questionCard"><div class="card-head"><span class="step-num">02</span><span id="questionStatus" class="status-tag">Waiting for textbook</span></div><div class="card-icon blue">⌗</div><h3>Upload question paper</h3><p>Groq Vision reads sections, marks, subquestions and OR alternatives.</p><label class="dropzone" for="questionFile"><span class="upload-symbol">⇧</span><strong id="questionFilename">Choose question paper PDF</strong><small>Scanned or digital · Max 20 MB</small></label><input id="questionFile" type="file" accept=".pdf,application/pdf" hidden /><button id="questionBtn" class="btn btn-secondary" type="button" disabled>Extract questions <span>→</span></button><div class="card-detail" id="questionDetail" aria-live="polite"></div></article>
+            <article class="step-card" id="generateCard"><div class="card-head"><span class="step-num">03</span><span id="generateStatus" class="status-tag">Waiting for questions</span></div><div class="card-icon teal">✧</div><h3>Generate answer bank</h3><p>Groq uses textbook passages to produce mark-aware answers with page references.</p><div class="generate-visual"><span>✦</span><div><strong>All questions included</strong><small>Both sides of every OR choice</small></div></div><button id="generateBtn" class="btn btn-primary" type="button" disabled>Generate all answers <span>→</span></button><div class="card-detail" id="generateDetail" aria-live="polite"></div></article>
+          </div>
+          <div id="progressPanel" class="progress-panel" hidden><div class="progress-head"><strong id="progressTitle">Generating answers…</strong><span id="progressCount">0 / 0</span></div><div class="progress-track"><div id="progressFill" class="progress-fill"></div></div><p id="progressNote">This may take a few minutes. Keep this page open.</p></div>
+        </section>
+        <section id="questions" class="section results-section"><div class="section-heading"><div><span class="eyebrow">DOCUMENT INTELLIGENCE</span><h2>Extracted questions</h2><p>Review the question paper structure before generating answers.</p></div><span class="count-pill" id="questionCount">0 questions</span></div><div id="questionsEmpty" class="empty-state"><span>⌗</span><h3>No questions yet</h3><p>Upload your question paper to see the extracted questions here.</p></div><div id="questionsList" class="question-list"></div><div id="reviewNotes" class="review-notes" hidden></div></section>
+        <section id="answers" class="section results-section"><div class="section-heading"><div><span class="eyebrow">YOUR STUDY MATERIAL</span><h2>Answer bank</h2><p>Answers are based on retrieved textbook passages and include page references where available.</p></div><div class="export-actions"><button id="pdfBtn" class="btn btn-outline btn-small" type="button" disabled>↓ PDF</button></div></div><div id="answersEmpty" class="empty-state"><span>✎</span><h3>Your answers will appear here</h3><p>Generate an answer bank to review, study and export your results.</p></div><div id="answersSummary" class="answers-summary" hidden></div><div id="answersList" class="answer-list"></div></section>
+        <section id="ask" class="section ask-section"><div class="section-heading"><div><span class="eyebrow">EXPLORE YOUR TEXTBOOK</span><h2>Ask a question</h2><p>Ask something about your uploaded textbook without generating a full answer bank.</p></div></div><form id="askForm" class="ask-form"><label for="askInput">Your question</label><textarea id="askInput" rows="3" placeholder="e.g. Explain backpropagation in a neural network…" required></textarea><div class="ask-bottom"><label class="checkbox-label"><input id="generalToggle" type="checkbox" /> Allow general knowledge when the textbook is insufficient</label><button id="askBtn" class="btn btn-primary" type="submit" disabled>Ask StudyLens <span>→</span></button></div></form><div id="askResult" class="ask-result" hidden></div></section>
+        <footer>StudyLens AI · Groq Vision for questions · Groq + FAISS for textbook-grounded answers</footer>
+      </div>
+    </main>
+  </div>
+</body>
+</html>

@@ -1,0 +1,37 @@
+# Python virtual environments
+venv/
+venv_old/
+.venv/
+
+# API keys and secrets
+.env
+.env.*
+!.env.example
+
+# Python cache
+__pycache__/
+*.pyc
+.pytest_cache/
+
+# Jupyter
+.ipynb_checkpoints/
+
+# Generated documents
+*.pdf
+*.docx
+*.zip
+
+# Local ML models and vector indexes
+models/
+faiss_index/
+
+# Temporary test outputs
+bulk_test_results.json
+validation_report.json
+vision_parsed_questions.json
+
+# Editor and OS files
+.vscode/
+.idea/
+.DS_Store
+Thumbs.db

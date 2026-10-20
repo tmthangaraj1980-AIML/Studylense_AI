@@ -1,0 +1,31 @@
+
+# StudyLens AI - Backend API
+fastapi
+uvicorn[standard]
+python-multipart
+pydantic
+python-dotenv
+httpx
+
+# PDF and Document Processing
+pymupdf
+python-docx
+reportlab
+
+# AI Embeddings and Vector Search
+numpy
+torch
+sentence-transformers
+faiss-cpu
+
+# RAG and LLM Integration
+langchain
+langchain-core
+langchain-community
+langchain-text-splitters
+langchain-groq
+langchain-ollama
+groq
+
+# Utilities
+requests

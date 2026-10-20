@@ -1,0 +1,12 @@
+venv/
+.venv/
+.env
+.git/
+__pycache__/
+*.pyc
+.ipynb_checkpoints/
+*.pdf
+*.docx
+*.zip
+models/
+faiss_index/
